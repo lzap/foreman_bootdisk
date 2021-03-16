@@ -89,9 +89,9 @@ module ForemanBootdisk
       # the call is asynchronous. Also $TMPDIR (/tmp or /var/tmp) cannot be used because Foreman runs
       # with PrivateTmp systemd setting. And the plugin does not ship its own systemd-tmpfiles config,
       # so let's delete old temporary files explicitly for files older than 30 minutes:
-      Dir.glob(Rails.root.join('tmp/clean-daily/bootdisk-iso-*')).select{|f| File.ctime(f) < (Time.now - (60*30)) }.each{|f| FileUtils.rm_f(f)}
+      Dir.glob(Rails.root.join('tmp/bootdisk-iso-*')).select{|f| File.ctime(f) < (Time.now - (60*30)) }.each{|f| FileUtils.rm_f(f)}
       # And create new temporary directory:
-      wd = Dir.mktmpdir('bootdisk-iso-', Rails.root.join('tmp/clean-daily'))
+      wd = Dir.mktmpdir('bootdisk-iso-', Rails.root.join('tmp'))
       Dir.mkdir(File.join(wd, 'build'))
 
       if opts[:isolinux]
